@@ -9,7 +9,7 @@
 makeCacheMatrix <- function(x = matrix()) {
   inverseMatrix<-NULL
   
-  ## set function is used to set new values wihtout creating 
+  ## set function is used to set new values without creating 
   ## a new makeCacheMatrix object
   set <- function(y = matrix()) {
     x <<- y
@@ -19,10 +19,13 @@ makeCacheMatrix <- function(x = matrix()) {
   ## get the current matrix in object
   get <- function() x
   
+  ## set inverse of matrix
   setinverse <- function(x) inverseMatrix <<- x
   
+  ## get inverse of matrix
   getinverse <- function() inverseMatrix
   
+  ## set up list of functions for use
   list(set = set, get = get,
        setinverse = setinverse,
        getinverse = getinverse)
@@ -38,13 +41,19 @@ cacheSolve <- function(x, ...) {
   ## get cached inverse of matrix if it exists
   inverseMatrix <- x$getinverse()  
   
+  ## if not inversematrix is not empty look up cache
   if(!is.null(inverseMatrix)) {
     message("getting cached data")
     return(inverseMatrix)
   }
   
+  ## retrieve matrix to be inversed
   data <- x$get()
+  
+  ## inverse matrix
   inverseMatrix <- solve(data, ...)
+  
+  ## send inversed matrix to be stored
   x$setinverse(inverseMatrix)
   
   
